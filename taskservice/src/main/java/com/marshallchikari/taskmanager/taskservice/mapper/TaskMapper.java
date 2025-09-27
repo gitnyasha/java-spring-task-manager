@@ -5,7 +5,7 @@ import com.marshallchikari.taskmanager.taskservice.dto.TaskResponseDTO;
 import com.marshallchikari.taskmanager.taskservice.model.Task;
 
 public class TaskMapper {
-    public TaskResponseDTO toDto(Task task) {
+    public static TaskResponseDTO toDto(Task task) {
         TaskResponseDTO dto = new TaskResponseDTO();
         dto.setId(task.getId());
         dto.setUserId(task.getUserId());
@@ -18,7 +18,7 @@ public class TaskMapper {
         return dto;
     }
 
-    public Task toModel(TaskRequestDTO req) {
+    public static Task toModel(TaskRequestDTO req) {
         Task task = new Task();
         task.setTitle(req.getTitle());
         task.setDescription(req.getDescription());
@@ -26,7 +26,7 @@ public class TaskMapper {
         return task;
     }
 
-    public void updateModel(Task task, TaskRequestDTO req) {
+    public static void updateModel(Task task, TaskRequestDTO req) {
         if (req.getTitle() != null) task.setTitle(req.getTitle());
         task.setDescription(req.getDescription());
         if (req.getStatus() != null) task.setStatus(req.getStatus());

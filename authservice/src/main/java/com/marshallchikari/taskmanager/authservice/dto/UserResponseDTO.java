@@ -5,13 +5,14 @@ import java.time.LocalDateTime;
 public class UserResponseDTO {
     private Long id;
     private String username;
-    private LocalDateTime created_at;
+    private LocalDateTime createdAt;
 
     public UserResponseDTO() {}
 
-    public UserResponseDTO(Long id, String username) {
+    public UserResponseDTO(Long id, String username, LocalDateTime createdAt) {
         this.id = id;
         this.username = username;
+        this.createdAt = createdAt;
     }
 
     public Long getId() {
@@ -29,10 +30,10 @@ public class UserResponseDTO {
     }
 
    public LocalDateTime getCreatedAt() {
-        return created_at;
+        return createdAt;
    }
 
-   public void setCreatedAt(LocalDateTime created_at) {
-        this.created_at = created_at;
+   public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
    }
 }

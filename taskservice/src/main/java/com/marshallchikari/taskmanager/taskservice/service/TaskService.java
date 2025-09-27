@@ -13,14 +13,12 @@ import java.util.stream.Collectors;
 
 @Service
 public class TaskService {
-    private final TaskMapper taskMapper;
     private final TaskRepository taskRepo;
     private final JwtUtil jwtUtil;
 
-    public TaskService(TaskMapper taskMapper,
+    public TaskService(
                        TaskRepository taskRepo,
                        JwtUtil jwtUtil) {
-        this.taskMapper = taskMapper;
         this.taskRepo = taskRepo;
         this.jwtUtil = jwtUtil;
     }
@@ -28,17 +26,17 @@ public class TaskService {
     public TaskResponseDTO createTask(TaskRequestDTO request, String authorizationHeader) {
         Long userId = resolveUserIdFromAuthorization(authorizationHeader);
 
-        Task task = taskMapper.toModel(request);
+        Task task = TaskMapper.toModel(request);
         task.setUserId(userId);
 
         Task saved = taskRepo.save(task);
-        return taskMapper.toDto(saved);
+        return TaskMapper.toDto(saved);
     }
 
     public List<TaskResponseDTO> findAllForCurrentUser(String authorizationHeader) {
         Long userId = resolveUserIdFromAuthorization(authorizationHeader);
         return taskRepo.findByUserId(userId).stream()
-                .map(taskMapper::toDto)
+                .map(TaskMapper::toDto)
                 .collect(Collectors.toList());
     }
 
@@ -47,7 +45,7 @@ public class TaskService {
 
         Task task = taskRepo.findByIdAndUserId(id, userId)
                 .orElseThrow(() -> new IllegalArgumentException("Task not found or access denied"));
-        return taskMapper.toDto(task);
+        return TaskMapper.toDto(task);
     }
 
     public TaskResponseDTO updateTask(Long id, TaskRequestDTO request, String authorizationHeader) {
@@ -56,9 +54,9 @@ public class TaskService {
         Task existing = taskRepo.findByIdAndUserId(id, userId)
                 .orElseThrow(() -> new IllegalArgumentException("Task not found or access denied"));
 
-        taskMapper.updateModel(existing, request);
+        TaskMapper.updateModel(existing, request);
         Task saved = taskRepo.save(existing);
-        return taskMapper.toDto(saved);
+        return TaskMapper.toDto(saved);
     }
 
     public void deleteTask(Long id, String authorizationHeader) {

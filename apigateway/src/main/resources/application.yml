@@ -4,21 +4,27 @@ server:
 jwt:
   secret: V1JkR2F5bU9XbXhZcVBlTmRWRWl3aXhqY2N0ZkZsU1o=
 
+auth:
+  service:
+    url: http://localhost:4001
+
 spring:
   cloud:
     gateway:
-      routes:
-        - id: auth-service-route
-          uri: http://localhost:4001
-          predicates:
-            - Path=/auth/**
-          filters:
-            - StripPrefix=1
+      server:
+        webflux:
+          routes:
+            - id: auth-service-route
+              uri: http://localhost:4001
+              predicates:
+                - Path=/auth/**
+              filters:
+                - StripPrefix=1
 
-        - id: task-service-route
-          uri: http://localhost:4002
-          predicates:
-            - Path=/api/tasks/**
-          filters:
-            - StripPrefix=1
-            - JwtValidation
+            - id: task-service-route
+              uri: http://localhost:4002
+              predicates:
+                - Path=/api/tasks/**
+              filters:
+                - StripPrefix=1
+                - JwtValidation
