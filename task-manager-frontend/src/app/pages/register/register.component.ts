@@ -18,6 +18,9 @@ export class RegisterComponent {
   form!: FormGroup;
 
   constructor(private auth: AuthService, private router: Router, private fb: FormBuilder) {
+    if (this.auth.isLoggedIn()) {
+      this.router.navigate(['/tasks']);
+    }
     this.form = this.fb.group({
       username: ['', Validators.required],
       password: ['', [Validators.required, Validators.minLength(8)]],
