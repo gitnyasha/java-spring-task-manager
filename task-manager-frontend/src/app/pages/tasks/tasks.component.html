@@ -1,0 +1,50 @@
+<div class="container mt-4">
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h3>Your Tasks</h3>
+    <div>
+      <span class="me-3">Hello, {{ (auth.user$ | async)?.user?.username }}</span>
+      <button class="btn btn-outline-secondary me-2" (click)="startCreate()">New Task</button>
+    </div>
+  </div>
+
+  <div *ngIf="loading" class="mb-3">Loading...</div>
+  <div *ngIf="error" class="alert alert-danger">{{ error }}</div>
+
+  <div *ngIf="creating">
+    <app-task-form
+      mode="create"
+      (submit)="create($event)"
+      (cancel)="creating = false"
+    ></app-task-form>
+  </div>
+
+  <ul class="list-group">
+    <li class="list-group-item" *ngFor="let t of tasks">
+      <div class="d-flex justify-content-between">
+        <div>
+          <h5 [ngClass]="{ 'text-decoration-line-through': t.status === 'COMPLETED' }">
+            {{ t.title }}
+          </h5>
+          <p>{{ t.description }}</p>
+          <small>Created: {{ t.createdAt | date : 'short' }}</small>
+        </div>
+        <div class="text-end">
+          <button class="btn btn-sm btn-outline-success me-2" (click)="toggleStatus(t)">
+            {{ t.status === 'PENDING' ? 'Complete' : 'Reopen' }}
+          </button>
+          <button class="btn btn-sm btn-outline-primary me-2" (click)="startEdit(t)">Edit</button>
+          <button class="btn btn-sm btn-outline-danger" (click)="deleteTask(t.id)">Delete</button>
+        </div>
+      </div>
+
+      <div *ngIf="editing?.id === t.id" class="mt-2">
+        <app-task-form
+          [initial]="editing"
+          mode="edit"
+          (submit)="saveEdit($event)"
+          (cancel)="cancelEdit()"
+        ></app-task-form>
+      </div>
+    </li>
+  </ul>
+</div>

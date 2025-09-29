@@ -1,0 +1,22 @@
+<div class="container mt-5" style="max-width: 420px">
+  <h3>Register</h3>
+  <form [formGroup]="form" (ngSubmit)="submit()">
+    <div class="mb-3">
+      <label>Username</label>
+      <input formControlName="username" class="form-control" />
+    </div>
+    <div class="mb-3">
+      <label>Password</label>
+      <input type="password" formControlName="password" class="form-control" />
+      <small
+        *ngIf="form.get('password')?.invalid && form.get('password')?.touched"
+        class="text-danger"
+      >
+        Password must be at least 8 characters
+      </small>
+    </div>
+    <button class="btn btn-primary" [disabled]="loading">Register</button>
+
+    <div *ngIf="error" class="alert alert-danger mt-3">{{ error }}</div>
+  </form>
+</div>

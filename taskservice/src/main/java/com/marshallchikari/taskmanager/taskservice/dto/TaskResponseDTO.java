@@ -53,7 +53,7 @@ public class TaskResponseDTO {
         this.status = status;
     }
 
-    public LocalDateTime getCreateAt() {
+    public LocalDateTime getCreatedAt() {
         return createdAt;
     }
 
